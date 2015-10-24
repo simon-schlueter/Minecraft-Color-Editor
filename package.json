@@ -1,0 +1,22 @@
+{
+  "name": "minecraft-color-editor",
+  "version": "1.0.0",
+  "description": "A basic editor for creating text with Minecraft color codes.",
+  "author": "Simon S.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CdePanda/Minecraft-Color-Editor.git"
+  },
+  "devDependencies": {
+    "babel-loader": "^5.3.2",
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-less": "^3.0.3",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.4.2",
+    "gulp-util": "^3.0.7",
+    "webpack": "^1.12.2"
+  }
+}
