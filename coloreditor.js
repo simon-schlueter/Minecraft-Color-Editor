@@ -561,13 +561,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    this.removeValue(formats, 'underline');
 	                    this.removeValue(formats, 'strikethrough');
 	
-	                    decorations.forEach(function (decoration) {
+	                    decorations.forEach((function (decoration) {
 	                        if (decoration == 'underline') {
 	                            this.addUniqueValue(formats, this.getFormatCode('underline'));
 	                        } else if (decoration == 'line-through') {
 	                            this.addUniqueValue(formats, this.getFormatCode('strikethrough'));
 	                        }
-	                    });
+	                    }).bind(this));
 	                }
 	            }
 	
