@@ -466,6 +466,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	};
 	
+	FormatParser.prototype.removeValue = function (arr, value) {
+	    var index = arr.indexOf(value);
+	    if (index > -1) {
+	        arr.splice(index, 1);
+	    }
+	};
+	
 	FormatParser.prototype.parseNodeTree = function (nodes, parentColor, parentFormats, tree) {
 	    var res = '';
 	
@@ -522,17 +529,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	            res += node.textContent.replace(/\n/, '');
 	        } else if (type === 1) {
 	            var color = parentColor;
+	            var formats = parentFormats.slice();
 	
 	            if (node.hasAttribute('color')) {
 	                color = this.parseColor(node.getAttribute('color'));
 	            }
+	
 	            if (node.hasAttribute('style')) {
 	                if (node.style.color) {
 	                    color = this.parseColor(getComputedStyle(node).color);
 	                }
-	            }
 	
-	            var formats = parentFormats.slice();
+	                var fontWeight = node.style.fontWeight;
+	                if (fontWeight == 'bold') {
+	                    this.addUniqueValue(formats, this.getFormatCode('bold'));
+	                } else if (fontWeight == 'normal' || fontWeight == 'initial' || fontWeight == '400') {
+	                    this.removeValue(formats, 'bold');
+	                }
+	
+	                var fontStyle = node.style.fontStyle;
+	                if (fontStyle == 'italic') {
+	                    this.addUniqueValue(formats, this.getFormatCode('italic'));
+	                } else if (fontStyle == 'normal' || fontStyle == 'initial') {
+	                    this.removeValue(formats, 'italic');
+	                }
+	
+	                var textDecoration = node.style.textDecoration;
+	                if (textDecoration) {
+	                    var decorations = textDecoration.split(' ');
+	
+	                    this.removeValue(formats, 'underline');
+	                    this.removeValue(formats, 'strikethrough');
+	
+	                    decorations.forEach(function (decoration) {
+	                        if (decoration == 'underline') {
+	                            this.addUniqueValue(formats, this.getFormatCode('underline'));
+	                        } else if (decoration == 'line-through') {
+	                            this.addUniqueValue(formats, this.getFormatCode('strikethrough'));
+	                        }
+	                    });
+	                }
+	            }
 	
 	            if (node.tagName == 'B') {
 	                this.addUniqueValue(formats, this.getFormatCode('bold'));
